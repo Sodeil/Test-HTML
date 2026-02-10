@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quatsch-Seite™</title>
+  <style>
+    body{font-family:system-ui,Arial; max-width:720px; margin:40px auto; padding:0 16px; background:#fff6ff;}
+    h1{margin:0 0 6px;}
+    .box{border:2px dashed #333; padding:14px; border-radius:12px; background:#ffffff;}
+    button{padding:10px 12px; border:2px solid #333; border-radius:10px; background:#ffe66d; cursor:pointer;}
+    button:active{transform:translateY(1px);}
+    .small{font-size:0.9rem; opacity:.75;}
+    #mood{font-weight:700;}
+    .footer{margin-top:14px; opacity:.7;}
+    .blink{animation:blink 1s steps(1) infinite;}
+    @keyframes blink{50%{opacity:.2;}}
+  </style>
+</head>
+<body>
+  <h1>Willkommen auf der Quatsch-Seite™ <span class="blink">🦄</span></h1>
+  <p class="small">Inhalt komplett egal. Technik: „eine HTML-Datei, fertig“. Mehr ist das nicht.</p>
+
+  <div class="box">
+    <p>Aktuelle Stimmung: <span id="mood">unentschlossen</span></p>
+    <p>Aktueller Quatsch-Level: <span id="level">0</span> / 9000</p>
+
+    <button id="btn">Mach Quatsch</button>
+    <button id="panic">PANIK</button>
+
+    <p id="msg" class="footer">Tipp: Drück irgendwas. Es passiert… irgendwas.</p>
+  </div>
+
+  <script>
+    const moods = ["leicht verwirrt", "professionell unprofessionell", "kreativ chaotisch", "Toast-orientiert", "dramatisch", "okay-ish"];
+    const noises = ["*plopp*", "*wusch*", "*pöng*", "*quiiiek*", "*brrt*", "*miep*"];
+
+    let level = 0;
+    const moodEl = document.getElementById("mood");
+    const levelEl = document.getElementById("level");
+    const msgEl = document.getElementById("msg");
+
+    function rnd(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+    document.getElementById("btn").addEventListener("click", () => {
+      level += Math.floor(Math.random()*7) + 1;
+      moodEl.textContent = rnd(moods);
+      levelEl.textContent = level;
+
+      const emote = (level % 2 === 0) ? "🫠" : "🤡";
+      msgEl.textContent = `${rnd(noises)} Quatsch wurde erfolgreich verstärkt ${emote}`;
+      document.title = `Quatsch x${level}`;
+      document.body.style.transform = `rotate(${(Math.random()*2-1).toFixed(2)}deg)`;
+      setTimeout(()=>document.body.style.transform="rotate(0deg)", 120);
+    });
+
+    document.getElementById("panic").addEventListener("click", () => {
+      msgEl.textContent = "PANIK-MODUS: Alles ist okay. (Wahrscheinlich.) 🚨";
+      level = 0;
+      levelEl.textContent = level;
+      moodEl.textContent = "hyperventilierend aber stabil";
+      document.body.style.background = ["#fff6ff","#f0fff6","#f6f8ff","#fffbe6"][Math.floor(Math.random()*4)];
+    });
+  </script>
+</body>
+</html>
